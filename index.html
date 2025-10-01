@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Journey: Prefix Edition</title>
+    <title>Word Journey: Exact Prefix Edition</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Mali:wght@600&display=swap');
 
         /* สีสันใหม่สำหรับ Prefix Theme */
         :root {
-            --color-primary: #1E90FF; /* Dodger Blue - สดใส */
-            --color-secondary: #FF6347; /* Tomato Red - เน้น */
-            --color-accent: #3CB371; /* Medium Sea Green - สงบ */
-            --color-background-start: #9370DB; /* Medium Purple */
-            --color-background-end: #6495ED; /* Cornflower Blue */
-            --text-color: #2c3e50; /* Dark Blue Gray */
+            --color-primary: #8A2BE2; /* Blue Violet - ม่วง */
+            --color-secondary: #FFD700; /* Gold - เหลืองทอง */
+            --color-accent: #3CB371; /* Medium Sea Green - เขียว */
+            --color-background-start: #483D8B; /* Dark Slate Blue */
+            --color-background-end: #6A5ACD; /* Slate Blue */
+            --text-color: #f0f0f0; /* Light Gray for dark background */
             --card-color: #FFFFFF;
         }
 
@@ -36,15 +36,15 @@
             background-color: var(--card-color);
             padding: 2.5rem;
             border-radius: 30px; 
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); 
             width: 100%;
-            max-width: 750px; /* ขยายเล็กน้อยเพื่อรองรับชื่อ Category ที่ยาวขึ้น */
+            max-width: 750px; 
             box-sizing: border-box;
             border: 5px solid var(--color-primary); 
         }
 
         h1 {
-            color: var(--color-secondary); /* Tomato Red */
+            color: var(--color-primary); /* Blue Violet */
             font-family: 'Mali', cursive;
             font-size: 3.5em;
             text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
@@ -56,12 +56,12 @@
         #category-page { display: block; }
         .category-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ปรับให้กว้างขึ้นเล็กน้อย */
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
         .category-button {
-            color: white; /* เปลี่ยนเป็นสีขาวเพื่อให้เข้ากับสีพื้นหลังเข้ม */
+            color: white; 
             border: none;
             padding: 1.5rem 1rem;
             border-radius: 20px;
@@ -72,13 +72,14 @@
             transition: all 0.2s ease-in-out;
             text-transform: uppercase;
             font-family: 'Mali', cursive;
+            line-height: 1.3;
         }
         .category-button:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4); }
 
         /* Lesson Page */
         #lesson-page { display: none; }
         #vocab-card {
-            background-color: var(--color-primary); /* Dodger Blue */
+            background-color: var(--color-primary); /* Blue Violet */
             border-radius: 25px;
             padding: 3rem 2rem;
             min-height: 280px;
@@ -87,13 +88,13 @@
             justify-content: center;
             align-items: center;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            border: 4px solid var(--color-secondary); /* Tomato Red */
+            border: 4px solid var(--color-secondary); /* Gold */
             margin-bottom: 1.5rem;
         }
         /* English ขึ้นก่อน Thai */
         #english-word {
-            font-size: 4.2em; /* เน้นคำศัพท์ */
-            color: var(--color-accent); /* Medium Sea Green */
+            font-size: 4.2em; 
+            color: var(--color-secondary); /* Gold */
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
             margin-bottom: 0.8rem;
             font-weight: 700;
@@ -133,15 +134,15 @@
         .nav-btn:hover { background-color: #CD5C5C; }
         .play-btn { background-color: #1E90FF; box-shadow: 0 4px 0 #00BFFF; } /* Dodger Blue */
         .play-btn:hover { background-color: #00BFFF; }
-        .back-btn { background-color: #9370DB; box-shadow: 0 4px 0 #8A2BE2; } /* Medium Purple */
-        .back-btn:hover { background-color: #8A2BE2; }
+        .back-btn { background-color: #FFD700; color: #333; box-shadow: 0 4px 0 #FFC300; } /* Gold */
+        .back-btn:hover { background-color: #FFC300; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div id="category-page">
-            <h1>🚀 Word Journey: Prefix Edition</h1>
+            <h1>📚 Word Journey: Prefix Focus</h1>
             <div id="category-grid" class="category-grid"></div>
         </div>
 
@@ -162,7 +163,7 @@
             </div>
             <div class="control-group">
                 <button id="play-pause-btn" class="play-btn">Play 🔄</button>
-                <button id="stop-btn" class="back-btn">Stop ⏹️</button>
+                <button id="stop-btn" class="nav-btn">Stop ⏹️</button>
                 <button id="back-to-cat-btn" class="back-btn">กลับหน้าหลัก 🏠</button>
             </div>
         </div>
@@ -170,29 +171,29 @@
 
     <script>
         const vocabularyData = {
-            "1. Prefix: IN- (ไม่/ข้างใน)": [
+            "1. IN- (In, Im, Il, Ir) 20 คำ": [
                 { thai: "ไม่สมบูรณ์", english: "Incomplete" },
                 { thai: "มองไม่เห็น", english: "Invisible" },
-                { thai: "ไม่แน่นอน", english: "Indefinite" },
-                { thai: "ไม่สามารถ", english: "Incapable" },
-                { thai: "ฉีดเข้า/ใส่เข้าไป", english: "Inject" },
-                { thai: "หายใจเข้า", english: "Inhale" },
-                { thai: "ภายใน", english: "Interior" },
-                { thai: "อยู่ใน", english: "Inhabit" },
-                { thai: "นำเข้า", english: "Import" },
                 { thai: "เป็นไปไม่ได้", english: "Impossible" },
                 { thai: "ไม่ถูกกฎหมาย", english: "Illegal" },
                 { thai: "ไม่สม่ำเสมอ", english: "Irregular" },
-                { thai: "เป็นอิสระ", english: "Independent" },
-                { thai: "ภายในประเทศ", english: "Inland" },
-                { thai: "ความไม่ยุติธรรม", english: "Injustice" },
+                { thai: "ฉีดเข้า", english: "Inject" },
+                { thai: "หายใจเข้า", english: "Inhale" },
+                { thai: "ข้างใน/ภายใน", english: "Interior" },
+                { thai: "นำเข้า", english: "Import" },
                 { thai: "ไร้เดียงสา", english: "Innocent" },
-                { thai: "แจ้งให้ทราบ", english: "Inform" },
-                { thai: "เริ่มต้น", english: "Initial" },
-                { thai: "ดลใจ", english: "Inspire" },
-                { thai: "เหลือเชื่อ", english: "Incredible" }
+                { thai: "เริ่มแรก", english: "Initial" },
+                { thai: "แทรกแซง", english: "Interfere" },
+                { thai: "แรงจูงใจภายใน", english: "Intrinsic" },
+                { thai: "ไม่ถูกต้อง", english: "Incorrect" },
+                { thai: "ไม่แน่นอน", english: "Indefinite" },
+                { thai: "บุกรุก", english: "Invade" },
+                { thai: "ทำให้เข้าใจ", english: "Illustrate" },
+                { thai: "อิมแพค/ผลกระทบ", english: "Impact" },
+                { thai: "ไม่ยืดหยุ่น", english: "Inflexible" },
+                { thai: "บรรจุ/รวมเข้า", english: "Include" }
             ],
-            "2. Prefix: EX- (ออก/อดีต)": [
+            "2. EX- (ออก/อดีต) 20 คำ": [
                 { thai: "ทางออก", english: "Exit" },
                 { thai: "ส่งออก", english: "Export" },
                 { thai: "กีดกันออกไป", english: "Exclude" },
@@ -201,42 +202,42 @@
                 { thai: "หายใจออก", english: "Exhale" },
                 { thai: "สกัดออกมา", english: "Extract" },
                 { thai: "ภายนอก", english: "Exterior" },
-                { thai: "อดีตประธาน", english: "Ex-president" },
+                { thai: "อดีตภรรยา", english: "Ex-wife" },
                 { thai: "สูญพันธุ์", english: "Extinct" },
-                { thai: "อดีตสามี", english: "Ex-husband" },
                 { thai: "ตรวจสอบ", english: "Examine" },
                 { thai: "ยกเว้น", english: "Except" },
                 { thai: "แลกเปลี่ยน", english: "Exchange" },
                 { thai: "การแสดงออก", english: "Expression" },
-                { thai: "การอพยพ", english: "Exodus" },
-                { thai: "หนี/รอดพ้น", english: "Escape" },
+                { thai: "อธิบาย", english: "Explain" },
+                { thai: "สิ้นเปลือง/ฟุ่มเฟือย", english: "Extravagant" },
+                { thai: "ขับไล่", english: "Expel" },
                 { thai: "หมดอายุ", english: "Expire" },
-                { thai: "การระเบิด", english: "Explosion" },
-                { thai: "ออกเดินทาง", english: "Egress" }
+                { thai: "ยอดเยี่ยม", english: "Excellent" },
+                { thai: "แสดงนิทรรศการ", english: "Exhibit" }
             ],
-            "3. Prefix: PRE- (ก่อน/ล่วงหน้า)": [
+            "3. PRE- (ก่อน/ล่วงหน้า) 20 คำ": [
                 { thai: "เตรียมการ", english: "Prepare" },
                 { thai: "ทำนาย", english: "Predict" },
                 { thai: "ดูตัวอย่างก่อน", english: "Preview" },
                 { thai: "ก่อนประวัติศาสตร์", english: "Prehistoric" },
                 { thai: "คำนำหน้า", english: "Prefix" },
-                { thai: "เงื่อนไขเบื้องต้น", english: "Prerequisite" },
                 { thai: "อคติ", english: "Prejudice" },
                 { thai: "มาก่อน/นำหน้า", english: "Precede" },
                 { thai: "ก่อนกำหนด", english: "Premature" },
                 { thai: "การระมัดระวังล่วงหน้า", english: "Precaution" },
                 { thai: "นำเสนอ", english: "Present" },
-                { thai: "ปกป้อง", english: "Protect" },
+                { thai: "ป้องกัน", english: "Prevent" },
                 { thai: "โรงเรียนก่อนวัยเรียน", english: "Preschool" },
                 { thai: "แสร้งทำ", english: "Pretend" },
                 { thai: "สั่งยา", english: "Prescribe" },
                 { thai: "ชื่นชอบมากกว่า", english: "Prefer" },
                 { thai: "มีอิทธิพลเหนือกว่า", english: "Prevalent" },
                 { thai: "เดาได้ล่วงหน้า", english: "Predictable" },
-                { thai: "มีคุณสมบัติเหมาะสม", english: "Qualified" },
+                { thai: "มีอยู่ก่อน", english: "Preexist" },
+                { thai: "คำปฏิญาณ", english: "Pledge" },
                 { thai: "การครอบครอง", english: "Possession" }
             ],
-            "4. Prefix: DIS- (ไม่/ตรงกันข้าม)": [
+            "4. DIS- (ไม่/ตรงกันข้าม) 20 คำ": [
                 { thai: "ไม่เห็นด้วย", english: "Disagree" },
                 { thai: "หายไป", english: "Disappear" },
                 { thai: "ไม่ซื่อสัตย์", english: "Dishonest" },
@@ -253,34 +254,34 @@
                 { thai: "เปิดเผย", english: "Disclose" },
                 { thai: "ข้อพิพาท/โต้แย้ง", english: "Dispute" },
                 { thai: "ทำให้ท้อแท้", english: "Discourage" },
-                { thai: "ไม่เชื่อ", english: "Disbelieve" },
                 { thai: "แยกจากกัน", english: "Detach" },
-                { thai: "ไม่สบาย", english: "Diseased" },
-                { thai: "ไม่สุภาพ", english: "Discourteous" }
+                { thai: "ไม่สุภาพ", english: "Discourteous" },
+                { thai: "ดูถูก", english: "Disrespect" },
+                { thai: "ความแตกต่าง", english: "Distinction" }
             ],
-            "5. Prefix: UN- (ไม่/ตรงกันข้าม)": [
+            "5. UN- (ไม่/ตรงกันข้าม) 20 คำ": [
                 { thai: "ไม่พอใจ", english: "Unhappy" },
                 { thai: "ไม่เป็นที่รู้จัก", english: "Unknown" },
                 { thai: "ไม่เป็นระเบียบ", english: "Untidy" },
                 { thai: "ไม่เป็นธรรม", english: "Unfair" },
-                { thai: "เปิด/ไข (สิ่งที่ล็อค)", english: "Unlock" },
+                { thai: "เปิด/ไข", english: "Unlock" },
                 { thai: "คลายปม", english: "Untie" },
                 { thai: "ไม่น่าเชื่อ", english: "Unbelievable" },
                 { thai: "ไม่คาดคิด", english: "Unexpected" },
                 { thai: "ไม่สมบูรณ์", english: "Unfinished" },
                 { thai: "ไม่โชคดี", english: "Unlucky" },
-                { thai: "ไม่เป็นมืออาชีพ", english: "Unprofessional" },
                 { thai: "ไม่มีเงื่อนไข", english: "Unconditional" },
                 { thai: "ไม่สำคัญ", english: "Unimportant" },
-                { thai: "ไม่สนใจ", english: "Uninterested" },
-                { thai: "ไม่อดทน", english: "Unpatient" },
+                { thai: "ไม่สบาย", english: "Uneasy" },
                 { thai: "เปิดเผย", english: "Uncover" },
                 { thai: "ไม่สำเร็จ", english: "Unsuccessful" },
                 { thai: "ไม่สุภาพ", english: "Unkind" },
                 { thai: "ไม่มีวันสิ้นสุด", english: "Unending" },
-                { thai: "ไม่คุ้นเคย", english: "Unfamiliar" }
+                { thai: "ไม่คุ้นเคย", english: "Unfamiliar" },
+                { thai: "ไม่สมควร", english: "Unfit" },
+                { thai: "หลีกเลี่ยงไม่ได้", english: "Unavoidable" }
             ],
-            "6. Prefix: RE- (อีกครั้ง/ย้อนกลับ)": [
+            "6. RE- (อีกครั้ง/ย้อนกลับ) 20 คำ": [
                 { thai: "ทำซ้ำ/อีกครั้ง", english: "Repeat" },
                 { thai: "เขียนใหม่", english: "Rewrite" },
                 { thai: "สร้างใหม่", english: "Rebuild" },
@@ -299,12 +300,57 @@
                 { thai: "ซ่อมแซม", english: "Repair" },
                 { thai: "ทำซ้ำ", english: "Reproduce" },
                 { thai: "ปฏิวัติ", english: "Revolve" },
-                { thai: "ทำให้อ่อนเยาว์", english: "Rejuvenate" },
-                { thai: "การสะท้อนกลับ", english: "Reflection" }
+                { thai: "พิจารณา", english: "Regard" },
+                { thai: "แก้ไข/เปลี่ยนแปลง", english: "Reform" }
+            ],
+            "7. CO-/COM-/CON- (ร่วม/ด้วยกัน) 20 คำ": [
+                { thai: "ร่วมมือ", english: "Cooperate" },
+                { thai: "ผู้เขียนร่วม", english: "Co-author" },
+                { thai: "เชื่อมต่อ", english: "Connect" },
+                { thai: "สรุป", english: "Conclude" },
+                { thai: "ประกอบด้วย", english: "Comprise" },
+                { thai: "ความเห็นอกเห็นใจ", english: "Compassion" },
+                { thai: "การสื่อสาร", english: "Communicate" },
+                { thai: "ร่วมงาน", english: "Colleague" },
+                { thai: "สมาคม/ชมรม", english: "Club" },
+                { thai: "ควบคุม", english: "Control" },
+                { thai: "ผสม", english: "Combine" },
+                { thai: "เปรียบเทียบ", english: "Compare" },
+                { thai: "ร่วมสมัย", english: "Contemporary" },
+                { thai: "พยาน", english: "Confide" },
+                { thai: "ปรึกษา", english: "Consult" },
+                { thai: "การรวมกัน", english: "Consolidation" },
+                { thai: "การต่อสู้", english: "Combat" },
+                { thai: "ร่วมมือ", english: "Collaborate" },
+                { thai: "สมบูรณ์", english: "Complete" },
+                { thai: "การมีส่วนร่วม", english: "Contribution" }
+            ],
+            "8. SUB- (ภายใต้/รอง) 20 คำ": [
+                { thai: "รถไฟใต้ดิน", english: "Subway" },
+                { thai: "เรือดำน้ำ", english: "Submarine" },
+                { thai: "ส่ง/ยื่น", english: "Submit" },
+                { thai: "หัวข้อรอง", english: "Subheading" },
+                { thai: "รองจาก", english: "Subordinate" },
+                { thai: "แทนที่", english: "Substitute" },
+                { thai: "ทวีปย่อย", english: "Subcontinent" },
+                { thai: "อยู่ภายใต้", english: "Subject" },
+                { thai: "ส่วนย่อย", english: "Subsection" },
+                { thai: "ที่สำคัญ", english: "Substantial" },
+                { thai: "เบาลง/บรรเทา", english: "Subdue" },
+                { thai: "สมัครสมาชิก", english: "Subscribe" },
+                { thai: "ความอ่อนน้อม", english: "Submission" },
+                { thai: "ยอดรวม", english: "Subtotal" },
+                { thai: "ตั้งอยู่", english: "Situated" },
+                { thai: "สงบ/เรียบง่าย", english: "Subtle" },
+                { thai: "ชั้นดินใต้ผิวดิน", english: "Subsoil" },
+                { thai: "ระดับรองลงมา", english: "Sublevel" },
+                { thai: "ขัดขวาง", english: "Subvert" },
+                { thai: "ส่วนประกอบ", english: "Substance" }
             ]
         };
+
         // ----------------------------------------------------
-        // ส่วน JavaScript (Logics) - คัดลอกมาจากโค้ดเดิมและปรับเล็กน้อย
+        // ส่วน JavaScript (Logics) - คัดลอกมาจากโค้ดเดิม
         // ----------------------------------------------------
         const categoryPage = document.getElementById('category-page');
         const lessonPage = document.getElementById('lesson-page');
@@ -372,23 +418,27 @@
         // --- Game Logic ---
         function createCategoryButtons() {
             const categoryColors = {
-                "1. Prefix: IN- (ไม่/ข้างใน)": { bg: "#FFD700", shadow: "#FF8C00" }, // Gold
-                "2. Prefix: EX- (ออก/อดีต)": { bg: "#00CED1", shadow: "#008B8B" }, // Dark Turquoise
-                "3. Prefix: PRE- (ก่อน/ล่วงหน้า)": { bg: "#FF69B4", shadow: "#C71585" }, // Hot Pink
-                "4. Prefix: DIS- (ไม่/ตรงกันข้าม)": { bg: "#4682B4", shadow: "#191970" }, // Steel Blue
-                "5. Prefix: UN- (ไม่/ตรงกันข้าม)": { bg: "#A29BFE", shadow: "#6C5CE7" }, // Light Violet
-                "6. Prefix: RE- (อีกครั้ง/ย้อนกลับ)": { bg: "#FFA07A", shadow: "#FA8072" } // Light Salmon
+                "1. IN- (In, Im, Il, Ir) 20 คำ": { bg: "#4682B4", shadow: "#191970" }, // Steel Blue
+                "2. EX- (ออก/อดีต) 20 คำ": { bg: "#00CED1", shadow: "#008B8B" }, // Dark Turquoise
+                "3. PRE- (ก่อน/ล่วงหน้า) 20 คำ": { bg: "#FF69B4", shadow: "#C71585" }, // Hot Pink
+                "4. DIS- (ไม่/ตรงกันข้าม) 20 คำ": { bg: "#FFA07A", shadow: "#FA8072" }, // Light Salmon
+                "5. UN- (ไม่/ตรงกันข้าม) 20 คำ": { bg: "#A29BFE", shadow: "#6C5CE7" }, // Light Violet
+                "6. RE- (อีกครั้ง/ย้อนกลับ) 20 คำ": { bg: "#3CB371", shadow: "#2E8B57" }, // Medium Sea Green
+                "7. CO-/COM-/CON- (ร่วม/ด้วยกัน) 20 คำ": { bg: "#FFD700", shadow: "#FF8C00", text: "#333" }, // Gold
+                "8. SUB- (ภายใต้/รอง) 20 คำ": { bg: "#8A2BE2", shadow: "#6A5ACD" } // Blue Violet
             };
 
             for (const category in vocabularyData) {
                 const button = document.createElement('button');
                 button.className = 'category-button';
-                button.innerHTML = category;
+                button.innerHTML = category.replace(/\s(\d+)\sคำ/g, '<br>($1 คำ)'); // ใส่ <br> เพื่อขึ้นบรรทัดใหม่
                 
                 const colors = categoryColors[category] || { bg: "#9B59B6", shadow: "#8E44AD" };
                 
                 button.style.backgroundColor = colors.bg;
                 button.style.boxShadow = `0 6px 0 ${colors.shadow}`;
+                if (colors.text) { button.style.color = colors.text; } // สำหรับปุ่มสีอ่อน
+
                 
                 button.onmouseover = () => { button.style.backgroundColor = colors.shadow; button.style.transform = 'translateY(-3px)'; };
                 button.onmouseleave = () => { button.style.backgroundColor = colors.bg; button.style.transform = 'translateY(0)'; };
@@ -403,8 +453,8 @@
         function startLesson(category) {
             currentCategoryVocabs = vocabularyData[category];
             
-            // ลบแค่ตัวเลขนำหน้าและส่วน "Prefix: " ออกเพื่อใช้เป็น Title
-            const title = category.replace(/^\d+\. Prefix:\s*([A-Z-]+)\s*\((.*?)\)$/, '$1 ($2)').trim();
+            // ลบแค่ตัวเลขนำหน้าและจำนวนคำออกเพื่อใช้เป็น Title
+            const title = category.replace(/^\d+\.\s*([A-Z\/-]+)\s*\((.*?)\)\s*.*$/, '$1 ($2)').trim();
             lessonTitle.textContent = title; 
             
             currentIndex = 0;
