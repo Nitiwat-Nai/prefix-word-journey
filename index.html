@@ -1,0 +1,530 @@
+﻿<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Journey: Prefix Edition</title>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Mali:wght@600&display=swap');
+
+        /* สีสันใหม่สำหรับ Prefix Theme */
+        :root {
+            --color-primary: #1E90FF; /* Dodger Blue - สดใส */
+            --color-secondary: #FF6347; /* Tomato Red - เน้น */
+            --color-accent: #3CB371; /* Medium Sea Green - สงบ */
+            --color-background-start: #9370DB; /* Medium Purple */
+            --color-background-end: #6495ED; /* Cornflower Blue */
+            --text-color: #2c3e50; /* Dark Blue Gray */
+            --card-color: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Mali', cursive, 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, var(--color-background-start), var(--color-background-end));
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container {
+            background-color: var(--card-color);
+            padding: 2.5rem;
+            border-radius: 30px; 
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); 
+            width: 100%;
+            max-width: 750px; /* ขยายเล็กน้อยเพื่อรองรับชื่อ Category ที่ยาวขึ้น */
+            box-sizing: border-box;
+            border: 5px solid var(--color-primary); 
+        }
+
+        h1 {
+            color: var(--color-secondary); /* Tomato Red */
+            font-family: 'Mali', cursive;
+            font-size: 3.5em;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        /* Category Page */
+        #category-page { display: block; }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .category-button {
+            color: white; /* เปลี่ยนเป็นสีขาวเพื่อให้เข้ากับสีพื้นหลังเข้ม */
+            border: none;
+            padding: 1.5rem 1rem;
+            border-radius: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.4); 
+            transition: all 0.2s ease-in-out;
+            text-transform: uppercase;
+            font-family: 'Mali', cursive;
+        }
+        .category-button:active { transform: translateY(1px); box-shadow: 0 2px 0 rgba(0, 0, 0, 0.4); }
+
+        /* Lesson Page */
+        #lesson-page { display: none; }
+        #vocab-card {
+            background-color: var(--color-primary); /* Dodger Blue */
+            border-radius: 25px;
+            padding: 3rem 2rem;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 4px solid var(--color-secondary); /* Tomato Red */
+            margin-bottom: 1.5rem;
+        }
+        /* English ขึ้นก่อน Thai */
+        #english-word {
+            font-size: 4.2em; /* เน้นคำศัพท์ */
+            color: var(--color-accent); /* Medium Sea Green */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+        #thai-word {
+            font-size: 2.8em;
+            color: var(--card-color); /* สีขาว */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            margin-bottom: 0;
+        }
+        .control-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .control-group button {
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease-in-out;
+        }
+        .control-group button:hover { transform: translateY(-2px); box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2); }
+        .control-group button:active { transform: translateY(1px); box-shadow: none; }
+        .control-group button:disabled { background-color: #ccc; cursor: not-allowed; box-shadow: none; }
+
+        /* สีปุ่มควบคุม */
+        .audio-btn { background-color: #3CB371; box-shadow: 0 4px 0 #2E8B57; } /* Medium Sea Green */
+        .audio-btn:hover { background-color: #2E8B57; }
+        .nav-btn { background-color: #FF6347; box-shadow: 0 4px 0 #CD5C5C; } /* Tomato Red */
+        .nav-btn:hover { background-color: #CD5C5C; }
+        .play-btn { background-color: #1E90FF; box-shadow: 0 4px 0 #00BFFF; } /* Dodger Blue */
+        .play-btn:hover { background-color: #00BFFF; }
+        .back-btn { background-color: #9370DB; box-shadow: 0 4px 0 #8A2BE2; } /* Medium Purple */
+        .back-btn:hover { background-color: #8A2BE2; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="category-page">
+            <h1>🚀 Word Journey: Prefix Edition</h1>
+            <div id="category-grid" class="category-grid"></div>
+        </div>
+
+        <div id="lesson-page">
+            <h1 id="lesson-title" style="font-size: 2.5em;"></h1>
+            <div id="vocab-card">
+                <span id="english-word" class="word">...</span>
+                <span id="thai-word" class="word">...</span>
+            </div>
+            
+            <div class="control-group">
+                <button id="prev-btn" class="nav-btn">◀️ ก่อนหน้า</button>
+                <button id="next-btn" class="nav-btn">ถัดไป ▶️</button>
+            </div>
+            <div class="control-group">
+                <button onclick="speakText(currentVocab.thai, 'th-TH')" class="audio-btn">ฟัง (ไทย) 🔊</button>
+                <button onclick="speakText(currentVocab.english, 'en-US')" class="audio-btn">Listen (EN) 🔊</button>
+            </div>
+            <div class="control-group">
+                <button id="play-pause-btn" class="play-btn">Play 🔄</button>
+                <button id="stop-btn" class="back-btn">Stop ⏹️</button>
+                <button id="back-to-cat-btn" class="back-btn">กลับหน้าหลัก 🏠</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const vocabularyData = {
+            "1. Prefix: IN- (ไม่/ข้างใน)": [
+                { thai: "ไม่สมบูรณ์", english: "Incomplete" },
+                { thai: "มองไม่เห็น", english: "Invisible" },
+                { thai: "ไม่แน่นอน", english: "Indefinite" },
+                { thai: "ไม่สามารถ", english: "Incapable" },
+                { thai: "ฉีดเข้า/ใส่เข้าไป", english: "Inject" },
+                { thai: "หายใจเข้า", english: "Inhale" },
+                { thai: "ภายใน", english: "Interior" },
+                { thai: "อยู่ใน", english: "Inhabit" },
+                { thai: "นำเข้า", english: "Import" },
+                { thai: "เป็นไปไม่ได้", english: "Impossible" },
+                { thai: "ไม่ถูกกฎหมาย", english: "Illegal" },
+                { thai: "ไม่สม่ำเสมอ", english: "Irregular" },
+                { thai: "เป็นอิสระ", english: "Independent" },
+                { thai: "ภายในประเทศ", english: "Inland" },
+                { thai: "ความไม่ยุติธรรม", english: "Injustice" },
+                { thai: "ไร้เดียงสา", english: "Innocent" },
+                { thai: "แจ้งให้ทราบ", english: "Inform" },
+                { thai: "เริ่มต้น", english: "Initial" },
+                { thai: "ดลใจ", english: "Inspire" },
+                { thai: "เหลือเชื่อ", english: "Incredible" }
+            ],
+            "2. Prefix: EX- (ออก/อดีต)": [
+                { thai: "ทางออก", english: "Exit" },
+                { thai: "ส่งออก", english: "Export" },
+                { thai: "กีดกันออกไป", english: "Exclude" },
+                { thai: "ขยาย", english: "Expand" },
+                { thai: "เกินกว่า", english: "Exceed" },
+                { thai: "หายใจออก", english: "Exhale" },
+                { thai: "สกัดออกมา", english: "Extract" },
+                { thai: "ภายนอก", english: "Exterior" },
+                { thai: "อดีตประธาน", english: "Ex-president" },
+                { thai: "สูญพันธุ์", english: "Extinct" },
+                { thai: "อดีตสามี", english: "Ex-husband" },
+                { thai: "ตรวจสอบ", english: "Examine" },
+                { thai: "ยกเว้น", english: "Except" },
+                { thai: "แลกเปลี่ยน", english: "Exchange" },
+                { thai: "การแสดงออก", english: "Expression" },
+                { thai: "การอพยพ", english: "Exodus" },
+                { thai: "หนี/รอดพ้น", english: "Escape" },
+                { thai: "หมดอายุ", english: "Expire" },
+                { thai: "การระเบิด", english: "Explosion" },
+                { thai: "ออกเดินทาง", english: "Egress" }
+            ],
+            "3. Prefix: PRE- (ก่อน/ล่วงหน้า)": [
+                { thai: "เตรียมการ", english: "Prepare" },
+                { thai: "ทำนาย", english: "Predict" },
+                { thai: "ดูตัวอย่างก่อน", english: "Preview" },
+                { thai: "ก่อนประวัติศาสตร์", english: "Prehistoric" },
+                { thai: "คำนำหน้า", english: "Prefix" },
+                { thai: "เงื่อนไขเบื้องต้น", english: "Prerequisite" },
+                { thai: "อคติ", english: "Prejudice" },
+                { thai: "มาก่อน/นำหน้า", english: "Precede" },
+                { thai: "ก่อนกำหนด", english: "Premature" },
+                { thai: "การระมัดระวังล่วงหน้า", english: "Precaution" },
+                { thai: "นำเสนอ", english: "Present" },
+                { thai: "ปกป้อง", english: "Protect" },
+                { thai: "โรงเรียนก่อนวัยเรียน", english: "Preschool" },
+                { thai: "แสร้งทำ", english: "Pretend" },
+                { thai: "สั่งยา", english: "Prescribe" },
+                { thai: "ชื่นชอบมากกว่า", english: "Prefer" },
+                { thai: "มีอิทธิพลเหนือกว่า", english: "Prevalent" },
+                { thai: "เดาได้ล่วงหน้า", english: "Predictable" },
+                { thai: "มีคุณสมบัติเหมาะสม", english: "Qualified" },
+                { thai: "การครอบครอง", english: "Possession" }
+            ],
+            "4. Prefix: DIS- (ไม่/ตรงกันข้าม)": [
+                { thai: "ไม่เห็นด้วย", english: "Disagree" },
+                { thai: "หายไป", english: "Disappear" },
+                { thai: "ไม่ซื่อสัตย์", english: "Dishonest" },
+                { thai: "ไม่ชอบ", english: "Dislike" },
+                { thai: "ตัดการเชื่อมต่อ", english: "Disconnect" },
+                { thai: "ข้อเสียเปรียบ", english: "Disadvantage" },
+                { thai: "รบกวน", english: "Disturb" },
+                { thai: "ค้นพบ", english: "Discover" },
+                { thai: "ไล่ออก", english: "Dismiss" },
+                { thai: "ภัยพิบัติ", english: "Disaster" },
+                { thai: "ทำให้ผิดหวัง", english: "Disappoint" },
+                { thai: "ความไม่เป็นระเบียบ", english: "Disorder" },
+                { thai: "แจกจ่าย", english: "Distribute" },
+                { thai: "เปิดเผย", english: "Disclose" },
+                { thai: "ข้อพิพาท/โต้แย้ง", english: "Dispute" },
+                { thai: "ทำให้ท้อแท้", english: "Discourage" },
+                { thai: "ไม่เชื่อ", english: "Disbelieve" },
+                { thai: "แยกจากกัน", english: "Detach" },
+                { thai: "ไม่สบาย", english: "Diseased" },
+                { thai: "ไม่สุภาพ", english: "Discourteous" }
+            ],
+            "5. Prefix: UN- (ไม่/ตรงกันข้าม)": [
+                { thai: "ไม่พอใจ", english: "Unhappy" },
+                { thai: "ไม่เป็นที่รู้จัก", english: "Unknown" },
+                { thai: "ไม่เป็นระเบียบ", english: "Untidy" },
+                { thai: "ไม่เป็นธรรม", english: "Unfair" },
+                { thai: "เปิด/ไข (สิ่งที่ล็อค)", english: "Unlock" },
+                { thai: "คลายปม", english: "Untie" },
+                { thai: "ไม่น่าเชื่อ", english: "Unbelievable" },
+                { thai: "ไม่คาดคิด", english: "Unexpected" },
+                { thai: "ไม่สมบูรณ์", english: "Unfinished" },
+                { thai: "ไม่โชคดี", english: "Unlucky" },
+                { thai: "ไม่เป็นมืออาชีพ", english: "Unprofessional" },
+                { thai: "ไม่มีเงื่อนไข", english: "Unconditional" },
+                { thai: "ไม่สำคัญ", english: "Unimportant" },
+                { thai: "ไม่สนใจ", english: "Uninterested" },
+                { thai: "ไม่อดทน", english: "Unpatient" },
+                { thai: "เปิดเผย", english: "Uncover" },
+                { thai: "ไม่สำเร็จ", english: "Unsuccessful" },
+                { thai: "ไม่สุภาพ", english: "Unkind" },
+                { thai: "ไม่มีวันสิ้นสุด", english: "Unending" },
+                { thai: "ไม่คุ้นเคย", english: "Unfamiliar" }
+            ],
+            "6. Prefix: RE- (อีกครั้ง/ย้อนกลับ)": [
+                { thai: "ทำซ้ำ/อีกครั้ง", english: "Repeat" },
+                { thai: "เขียนใหม่", english: "Rewrite" },
+                { thai: "สร้างใหม่", english: "Rebuild" },
+                { thai: "กลับมา", english: "Return" },
+                { thai: "ตอบกลับ", english: "Reply" },
+                { thai: "เรียกคืน", english: "Recall" },
+                { thai: "คิดใหม่", english: "Rethink" },
+                { thai: "เติมใหม่", english: "Refill" },
+                { thai: "ฟื้นตัว", english: "Recover" },
+                { thai: "ย้อนกลับ", english: "Reverse" },
+                { thai: "จำได้", english: "Remember" },
+                { thai: "ลาออก", english: "Resign" },
+                { thai: "ถอยกลับ", english: "Recede" },
+                { thai: "ต่ออายุ", english: "Renew" },
+                { thai: "ตรวจสอบ", english: "Review" },
+                { thai: "ซ่อมแซม", english: "Repair" },
+                { thai: "ทำซ้ำ", english: "Reproduce" },
+                { thai: "ปฏิวัติ", english: "Revolve" },
+                { thai: "ทำให้อ่อนเยาว์", english: "Rejuvenate" },
+                { thai: "การสะท้อนกลับ", english: "Reflection" }
+            ]
+        };
+        // ----------------------------------------------------
+        // ส่วน JavaScript (Logics) - คัดลอกมาจากโค้ดเดิมและปรับเล็กน้อย
+        // ----------------------------------------------------
+        const categoryPage = document.getElementById('category-page');
+        const lessonPage = document.getElementById('lesson-page');
+        const categoryGrid = document.getElementById('category-grid');
+        const lessonTitle = document.getElementById('lesson-title');
+        const thaiWord = document.getElementById('thai-word');
+        const englishWord = document.getElementById('english-word');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const backToCatBtn = document.getElementById('back-to-cat-btn');
+        const stopBtn = document.getElementById('stop-btn');
+
+        let currentCategoryVocabs = [];
+        let currentIndex = 0;
+        let isPlaying = false;
+        let voices = [];
+        let currentVocab = {};
+
+        // --- Web Speech API ---
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                voices = window.speechSynthesis.getVoices();
+            };
+        }
+        function speakText(text, lang, onEndCallback = null) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = lang;
+                
+                if (lang === 'th-TH') {
+                    utterance.volume = 1.0; 
+                    utterance.rate = 1.1; 
+                } else {
+                    utterance.volume = 1.0; 
+                    utterance.rate = 1.0; 
+                }
+
+                let targetVoice = null;
+                if (lang === 'th-TH') {
+                    targetVoice = voices.find(v => v.lang.startsWith('th-TH') && v.name.includes('Lekha'));
+                    if (!targetVoice) { 
+                        targetVoice = voices.find(v => v.lang.startsWith('th-TH'));
+                    }
+                } 
+                else if (lang === 'en-US') {
+                    targetVoice = voices.find(v => v.lang.startsWith('en-US') && v.name.includes('Samantha'));
+                    if (!targetVoice) { 
+                        targetVoice = voices.find(v => v.lang.startsWith('en-US'));
+                    }
+                }
+                
+                if (targetVoice) {
+                    utterance.voice = targetVoice;
+                }
+
+                if (onEndCallback) {
+                    utterance.onend = onEndCallback;
+                }
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // --- Game Logic ---
+        function createCategoryButtons() {
+            const categoryColors = {
+                "1. Prefix: IN- (ไม่/ข้างใน)": { bg: "#FFD700", shadow: "#FF8C00" }, // Gold
+                "2. Prefix: EX- (ออก/อดีต)": { bg: "#00CED1", shadow: "#008B8B" }, // Dark Turquoise
+                "3. Prefix: PRE- (ก่อน/ล่วงหน้า)": { bg: "#FF69B4", shadow: "#C71585" }, // Hot Pink
+                "4. Prefix: DIS- (ไม่/ตรงกันข้าม)": { bg: "#4682B4", shadow: "#191970" }, // Steel Blue
+                "5. Prefix: UN- (ไม่/ตรงกันข้าม)": { bg: "#A29BFE", shadow: "#6C5CE7" }, // Light Violet
+                "6. Prefix: RE- (อีกครั้ง/ย้อนกลับ)": { bg: "#FFA07A", shadow: "#FA8072" } // Light Salmon
+            };
+
+            for (const category in vocabularyData) {
+                const button = document.createElement('button');
+                button.className = 'category-button';
+                button.innerHTML = category;
+                
+                const colors = categoryColors[category] || { bg: "#9B59B6", shadow: "#8E44AD" };
+                
+                button.style.backgroundColor = colors.bg;
+                button.style.boxShadow = `0 6px 0 ${colors.shadow}`;
+                
+                button.onmouseover = () => { button.style.backgroundColor = colors.shadow; button.style.transform = 'translateY(-3px)'; };
+                button.onmouseleave = () => { button.style.backgroundColor = colors.bg; button.style.transform = 'translateY(0)'; };
+                button.onmousedown = () => { button.style.transform = 'translateY(1px)'; button.style.boxShadow = `0 2px 0 ${colors.shadow}`; };
+
+
+                button.addEventListener('click', () => startLesson(category));
+                categoryGrid.appendChild(button);
+            }
+        }
+
+        function startLesson(category) {
+            currentCategoryVocabs = vocabularyData[category];
+            
+            // ลบแค่ตัวเลขนำหน้าและส่วน "Prefix: " ออกเพื่อใช้เป็น Title
+            const title = category.replace(/^\d+\. Prefix:\s*([A-Z-]+)\s*\((.*?)\)$/, '$1 ($2)').trim();
+            lessonTitle.textContent = title; 
+            
+            currentIndex = 0;
+            displayVocab();
+            categoryPage.style.display = 'none';
+            lessonPage.style.display = 'block';
+            updateButtonState();
+        }
+
+        function displayVocab() {
+            if (currentIndex < currentCategoryVocabs.length) {
+                currentVocab = currentCategoryVocabs[currentIndex];
+                // English ขึ้นก่อน Thai
+                englishWord.textContent = currentVocab.english;
+                thaiWord.textContent = currentVocab.thai;
+                
+            } else {
+                // แสดงข้อความจบและหยุดเล่น
+                englishWord.textContent = "Finished! 🥳";
+                thaiWord.textContent = "จบแล้ว! 🎉 แล้วเจอกันใหม่นะ";
+                stopAutoPlay();
+                // ปิดการใช้งานปุ่มถัดไป/ก่อนหน้า เมื่อจบแล้ว
+                nextBtn.disabled = true;
+                prevBtn.disabled = true;
+            }
+        }
+
+        function updateButtonState() {
+            // ปิดการใช้งานปุ่มถัดไป/ก่อนหน้า ถ้าจบแล้ว
+            if (currentIndex >= currentCategoryVocabs.length) {
+                nextBtn.disabled = true;
+                prevBtn.disabled = true;
+            } else {
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex >= currentCategoryVocabs.length - 1;
+            }
+            playPauseBtn.textContent = isPlaying ? 'Pause ⏸️' : 'Play 🔄';
+        }
+
+        function nextVocab() {
+            if (currentIndex < currentCategoryVocabs.length - 1) {
+                currentIndex++;
+                displayVocab();
+                updateButtonState();
+            } else if (currentIndex === currentCategoryVocabs.length - 1) {
+                // เมื่อกดปุ่ม "ถัดไป" ที่คำศัพท์คำสุดท้าย จะแสดงข้อความจบ
+                currentIndex++;
+                displayVocab();
+                updateButtonState();
+            }
+        }
+        
+        function prevVocab() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                displayVocab();
+                updateButtonState();
+            }
+        }
+
+        function playCurrentVocabAuto() {
+            if (currentIndex >= currentCategoryVocabs.length) {
+                // หยุดการเล่นและแสดงข้อความจบ
+                stopAutoPlay();
+                displayVocab(); // แสดงข้อความ "จบแล้ว"
+                return;
+            }
+            const currentVocabToPlay = currentCategoryVocabs[currentIndex];
+            
+            // เล่นภาษาอังกฤษก่อน
+            speakText(currentVocabToPlay.english, 'en-US', () => {
+                // เมื่อภาษาอังกฤษจบ เล่นภาษาไทย
+                speakText(currentVocabToPlay.thai, 'th-TH', () => {
+                    if (isPlaying) {
+                        currentIndex++;
+                        displayVocab();
+                        updateButtonState();
+                        // หน่วงเวลา 1 วินาที ก่อนไปคำถัดไป
+                        setTimeout(playCurrentVocabAuto, 1000); 
+                    }
+                });
+            });
+        }
+
+        function toggleAutoPlay() {
+            if (isPlaying) {
+                stopAutoPlay();
+            } else {
+                isPlaying = true;
+                updateButtonState();
+                // ถ้าการเล่นจบแล้ว (currentIndex เกินจำนวนคำ) ให้เริ่มใหม่ที่คำแรก
+                if (currentIndex >= currentCategoryVocabs.length) {
+                    currentIndex = 0; 
+                    displayVocab();
+                }
+                playCurrentVocabAuto();
+            }
+        }
+
+        function stopAutoPlay() {
+            isPlaying = false;
+            updateButtonState();
+            window.speechSynthesis.cancel();
+        }
+
+        function goToCategoryPage() {
+            stopAutoPlay();
+            lessonPage.style.display = 'none';
+            categoryPage.style.display = 'block';
+        }
+
+        // Event Listeners
+        nextBtn.addEventListener('click', nextVocab);
+        prevBtn.addEventListener('click', prevVocab);
+        playPauseBtn.addEventListener('click', toggleAutoPlay);
+        stopBtn.addEventListener('click', stopAutoPlay);
+        backToCatBtn.addEventListener('click', goToCategoryPage);
+
+        // Initial setup
+        createCategoryButtons();
+    </script>
+</body>
+</html>
