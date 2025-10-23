@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Journey: คำศัพท์วันพิเศษ</title>
+    <title>Word Journey: Prefix Focus</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Mali:wght@600&display=swap');
@@ -16,9 +16,9 @@
             --card-color: #FFFFFF; /* สีพื้นหลังของ Container */
             --text-color-dark: #2c3e50; /* สีเข้มสำหรับข้อความทั่วไป */
 
-            /* CSS Variables สำหรับการ์ดที่เปลี่ยนตามหมวด (Dynamic) */
-            --dynamic-card-bg: #FF6B6B; /* Default Card Background */
-            --dynamic-card-accent: #FFE66D; /* Default Accent/Highlight */
+            /* CSS Variables สำหรับการ์ดที่เปลี่ยนตามหมวด (Dynamic) - Default Color */
+            --dynamic-card-bg: #3498DB; 
+            --dynamic-card-accent: #F1C40F; 
         }
 
         /* --- MOBILE PORTRAIT FOCUS (Default Styles) --- */
@@ -58,7 +58,9 @@
         }
 
         /* Category Page - Mobile Optimized */
+        #category-page { display: block; }
         .category-grid {
+            display: grid;
             grid-template-columns: 1fr; /* 1 คอลัมน์สำหรับมือถือแนวตั้ง */
             gap: 0.8rem;
             margin-top: 0.8rem;
@@ -105,16 +107,27 @@
             margin-bottom: 0;
         }
         .control-group {
+            display: flex;
+            flex-wrap: wrap; 
+            justify-content: center;
             gap: 0.6rem;
             margin-top: 0.6rem;
         }
         .control-group button {
+            color: white;
+            border: none;
             width: calc(50% - 0.3rem); /* ปุ่มคู่ใช้เกือบครึ่งจอ */
             padding: 10px 15px;
             border-radius: 30px;
             font-size: 0.9em;
+            cursor: pointer;
+            font-weight: bold;
             box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease-in-out;
         }
+        .control-group button:hover { transform: translateY(-2px); box-shadow: 0 4px 0 rgba(0, 0, 0, 0.2); }
+        .control-group button:active { transform: translateY(1px); box-shadow: none; }
+        
         /* ปุ่ม Back/Stop ใช้เต็มความกว้าง */
         #back-to-cat-btn, #stop-btn {
             width: calc(50% - 0.3rem); 
@@ -159,7 +172,7 @@
 
     <div class="container">
         <div id="category-page">
-            <h1>🎉 Word Journey: คำศัพท์วันพิเศษ</h1>
+            <h1>📚 Word Journey: Prefix Focus</h1>
             <div id="category-grid" class="category-grid"></div>
         </div>
 
@@ -187,198 +200,225 @@
     </div>
 
     <script>
+        // *** DATA: PREFIX VOCABULARY ***
         const vocabularyData = {
-            "เทศกาลลอยกระทง 🌕": [
-                { thai: "ลอยกระทง", english: "Loy Krathong" },
-                { thai: "กระทง", english: "krathong (float)" },
-                { thai: "พระจันทร์เต็มดวง", english: "full moon" },
-                { thai: "แม่น้ำ", english: "river" },
-                { thai: "ดอกบัว", english: "lotus" },
-                { thai: "เทียน", english: "candle" },
-                { thai: "ธูป", english: "incense stick" },
-                { thai: "ดอกไม้", english: "flowers" },
-                { thai: "กล้วย", english: "banana tree" },
-                { thai: "ใบตอง", english: "banana leaf" },
-                { thai: "การขอขมา", english: "asking for forgiveness" },
-                { thai: "การลอย", english: "to float" },
-                { thai: "ความเชื่อ", english: "belief" },
-                { thai: "พิธี", english: "ceremony" },
-                { thai: "ประเพณี", english: "tradition" },
-                { thai: "โคมลอย", english: "sky lantern (khom loi)" },
-                { thai: "พลุ/ดอกไม้ไฟ", english: "fireworks" },
-                { thai: "ดวงจันทร์", english: "moon" },
-                { thai: "แสงสว่าง", english: "light" },
-                { thai: "ศาลเจ้าแม่คงคา", english: "Goddess of Water Shrine" }
+            "1. IN- (In, Im, Il, Ir) 20 คำ": [
+                { thai: "ไม่สมบูรณ์", english: "Incomplete" },
+                { thai: "มองไม่เห็น", english: "Invisible" },
+                { thai: "เป็นไปไม่ได้", english: "Impossible" },
+                { thai: "ไม่ถูกกฎหมาย", english: "Illegal" },
+                { thai: "ไม่สม่ำเสมอ", english: "Irregular" },
+                { thai: "ฉีดเข้า", english: "Inject" },
+                { thai: "หายใจเข้า", english: "Inhale" },
+                { thai: "ข้างใน/ภายใน", english: "Interior" },
+                { thai: "นำเข้า", english: "Import" },
+                { thai: "ไร้เดียงสา", english: "Innocent" },
+                { thai: "เริ่มแรก", english: "Initial" },
+                { thai: "แทรกแซง", english: "Interfere" },
+                { thai: "แรงจูงใจภายใน", english: "Intrinsic" },
+                { thai: "ไม่ถูกต้อง", english: "Incorrect" },
+                { thai: "ไม่แน่นอน", english: "Indefinite" },
+                { thai: "บุกรุก", english: "Invade" },
+                { thai: "ทำให้เข้าใจ", english: "Illustrate" },
+                { thai: "อิมแพค/ผลกระทบ", english: "Impact" },
+                { thai: "ไม่ยืดหยุ่น", english: "Inflexible" },
+                { thai: "บรรจุ/รวมเข้า", english: "Include" }
             ],
-            "เทศกาลอีสเตอร์ 🥚": [
-                { thai: "อีสเตอร์", english: "Easter" },
-                { thai: "ไข่อีสเตอร์", english: "Easter Egg" },
-                { thai: "กระต่ายอีสเตอร์", english: "Easter Bunny" },
-                { thai: "ช็อกโกแลต", english: "chocolate" },
-                { thai: "ฤดูใบไม้ผลิ", english: "spring" },
-                { thai: "ตะกร้า", english: "basket" },
-                { thai: "การค้นหา", english: "hunt" },
-                { thai: "ไม้กางเขน", english: "cross" },
-                { thai: "โบสถ์", english: "church" },
-                { thai: "การฟื้นคืนชีพ", english: "resurrection" },
-                { thai: "วันศุกร์ประเสริฐ", english: "Good Friday" },
-                { thai: "วันอาทิตย์ใบลาน", english: "Palm Sunday" },
-                { thai: "ลูกแกะ", english: "lamb" },
-                { thai: "ลูกไก่", english: "chick" },
-                { thai: "ขนมหวาน", english: "candy" },
-                { thai: "เจลลี่บีน", english: "Jelly Bean" },
-                { thai: "ย้อมสี", english: "dye (verb)" },
-                { thai: "หมวกบอนเน็ต", english: "bonnet" },
-                { thai: "ขบวนพาเหรด", english: "parade" },
-                { thai: "การเฉลิมฉลอง", english: "celebration" }
+            "2. EX- (ออก/อดีต) 20 คำ": [
+                { thai: "ทางออก", english: "Exit" },
+                { thai: "ส่งออก", english: "Export" },
+                { thai: "กีดกันออกไป", english: "Exclude" },
+                { thai: "ขยาย", english: "Expand" },
+                { thai: "เกินกว่า", english: "Exceed" },
+                { thai: "หายใจออก", english: "Exhale" },
+                { thai: "สกัดออกมา", english: "Extract" },
+                { thai: "ภายนอก", english: "Exterior" },
+                { thai: "อดีตภรรยา", english: "Ex-wife" },
+                { thai: "สูญพันธุ์", english: "Extinct" },
+                { thai: "ตรวจสอบ", english: "Examine" },
+                { thai: "ยกเว้น", english: "Except" },
+                { thai: "แลกเปลี่ยน", english: "Exchange" },
+                { thai: "การแสดงออก", english: "Expression" },
+                { thai: "อธิบาย", english: "Explain" },
+                { thai: "สิ้นเปลือง/ฟุ่มเฟือย", english: "Extravagant" },
+                { thai: "ขับไล่", english: "Expel" },
+                { thai: "หมดอายุ", english: "Expire" },
+                { thai: "ยอดเยี่ยม", english: "Excellent" },
+                { thai: "แสดงนิทรรศการ", english: "Exhibit" }
             ],
-            "เทศกาลปีใหม่ 🎉": [
-                { thai: "ปีใหม่", english: "New Year" }, 
-                { thai: "วันส่งท้ายปีเก่า", english: "New Year's Eve" }, 
-                { thai: "การนับถอยหลัง", english: "countdown" }, 
-                { thai: "ดอกไม้ไฟ", english: "fireworks" }, 
-                { thai: "การเฉลิมฉลอง", english: "celebration" }, 
-                { thai: "ความหวัง", english: "hope" }, 
-                { thai: "ของขวัญ", english: "gift/present" }, 
-                { thai: "คำอวยพร", english: "greeting" }, 
-                { thai: "มติ", english: "resolution" }, 
-                { thai: "เลี้ยงฉลอง", english: "feast" },
-                { thai: "ความสุข", english: "happiness" }, 
-                { thai: "ความเจริญรุ่งเรือง", english: "prosperity" }, 
-                { thai: "ปฏิทิน", english: "calendar" }, 
-                { thai: "ปาร์ตี้", english: "party" }, 
-                { thai: "สวัสดีปีใหม่", english: "Happy New Year" }, 
-                { thai: "จิบ/ดื่ม", english: "toasting" }, 
-                { thai: "พรปีใหม่", english: "New Year's wishes" }, 
-                { thai: "ปีที่กำลังจะมา", english: "coming year" }, 
-                { thai: "เพลงประจำเทศกาล", english: "holiday song" }, 
-                { thai: "ของตกแต่ง", english: "decorations" }
+            "3. PRE- (ก่อน/ล่วงหน้า) 20 คำ": [
+                { thai: "เตรียมการ", english: "Prepare" },
+                { thai: "ทำนาย", english: "Predict" },
+                { thai: "ดูตัวอย่างก่อน", english: "Preview" },
+                { thai: "ก่อนประวัติศาสตร์", english: "Prehistoric" },
+                { thai: "คำนำหน้า", english: "Prefix" },
+                { thai: "อคติ", english: "Prejudice" },
+                { thai: "มาก่อน/นำหน้า", english: "Precede" },
+                { thai: "ก่อนกำหนด", english: "Premature" },
+                { thai: "การระมัดระวังล่วงหน้า", english: "Precaution" },
+                { thai: "นำเสนอ", english: "Present" },
+                { thai: "ป้องกัน", english: "Prevent" },
+                { thai: "โรงเรียนก่อนวัยเรียน", english: "Preschool" },
+                { thai: "แสร้งทำ", english: "Pretend" },
+                { thai: "สั่งยา", english: "Prescribe" },
+                { thai: "ชื่นชอบมากกว่า", english: "Prefer" },
+                { thai: "มีอิทธิพลเหนือกว่า", english: "Prevalent" },
+                { thai: "เดาได้ล่วงหน้า", english: "Predictable" },
+                { thai: "มีอยู่ก่อน", english: "Preexist" },
+                { thai: "คำปฏิญาณ", english: "Pledge" },
+                { thai: "การครอบครอง", english: "Possession" }
             ],
-            "วันคริสต์มาส 🎄": [
-                { thai: "ซานตาคลอส", english: "Santa Claus" }, 
-                { thai: "กวางเรนเดียร์", english: "reindeer" }, 
-                { thai: "ของขวัญ", english: "gift/present" }, 
-                { thai: "ต้นคริสต์มาส", english: "Christmas tree" }, 
-                { thai: "หิมะ", english: "snow" }, 
-                { thai: "ระฆัง", english: "bell" }, 
-                { thai: "ถุงเท้า", english: "stocking" }, 
-                { thai: "เพลงคริสต์มาส", english: "carol" }, 
-                { thai: "เทียนไข", english: "candle" }, 
-                { thai: "สุขสันต์วันคริสต์มาส", english: "Merry Christmas" },
-                { thai: "เลื่อน", english: "sleigh" }, 
-                { thai: "เอลฟ์", english: "elf" }, 
-                { thai: "พวงหรีด", english: "wreath" }, 
-                { thai: "มิสเซิลโท", english: "mistletoe" }, 
-                { thai: "ปล่องไฟ", english: "chimney" }, 
-                { thai: "เครื่องประดับ", english: "ornaments" }, 
-                { thai: "สายรุ้ง", english: "tinsel" }, 
-                { thai: "ขนมปังขิง", english: "gingerbread" }, 
-                { thai: "ฮอลลี่", english: "holly" }, 
-                { thai: "เตาผิง", english: "fireplace" }
+            "4. DIS- (ไม่/ตรงกันข้าม) 20 คำ": [
+                { thai: "ไม่เห็นด้วย", english: "Disagree" },
+                { thai: "หายไป", english: "Disappear" },
+                { thai: "ไม่ซื่อสัตย์", english: "Dishonest" },
+                { thai: "ไม่ชอบ", english: "Dislike" },
+                { thai: "ตัดการเชื่อมต่อ", english: "Disconnect" },
+                { thai: "ข้อเสียเปรียบ", english: "Disadvantage" },
+                { thai: "รบกวน", english: "Disturb" },
+                { thai: "ค้นพบ", english: "Discover" },
+                { thai: "ไล่ออก", english: "Dismiss" },
+                { thai: "ภัยพิบัติ", english: "Disaster" },
+                { thai: "ทำให้ผิดหวัง", english: "Disappoint" },
+                { thai: "ความไม่เป็นระเบียบ", english: "Disorder" },
+                { thai: "แจกจ่าย", english: "Distribute" },
+                { thai: "เปิดเผย", english: "Disclose" },
+                { thai: "ข้อพิพาท/โต้แย้ง", english: "Dispute" },
+                { thai: "ทำให้ท้อแท้", english: "Discourage" },
+                { thai: "แยกจากกัน", english: "Detach" },
+                { thai: "ไม่สุภาพ", english: "Discourteous" },
+                { thai: "ดูถูก", english: "Disrespect" },
+                { thai: "ความแตกต่าง", english: "Distinction" }
             ],
-            "วันวาเลนไทน์ ❤️": [
-                { thai: "ความรัก", english: "love" }, 
-                { thai: "หัวใจ", english: "heart" }, 
-                { thai: "ช็อกโกแลต", english: "chocolate" }, 
-                { thai: "ดอกกุหลาบ", english: "rose" }, 
-                { thai: "บัตรอวยพร", english: "greeting card" }, 
-                { thai: "คู่รัก", english: "couple" }, 
-                { thai: "กามเทพ", english: "Cupid" }, 
-                { thai: "กอด", english: "hug" }, 
-                { thai: "จูบ", english: "kiss" }, 
-                { thai: "คนที่รัก", english: "sweetheart" },
-                { thai: "ผู้ชื่นชม", english: "admirer" }, 
-                { thai: "ความเสน่หา", english: "affection" }, 
-                { thai: "การเดท", english: "date" }, 
-                { thai: "การขอแต่งงาน", english: "proposal" }, 
-                { thai: "ช่อดอกไม้", english: "bouquet" }, 
-                { thai: "ที่รัก", english: "darling" }, 
-                { thai: "คนที่แอบชอบ", english: "crush" }, 
-                { thai: "โรแมนติก", english: "romantic" }, 
-                { thai: "การออกเดท", english: "dating" },
-                { thai: "คู่ชีวิต", english: "partner" }
+            "5. UN- (ไม่/ตรงกันข้าม) 20 คำ": [
+                { thai: "ไม่พอใจ", english: "Unhappy" },
+                { thai: "ไม่เป็นที่รู้จัก", english: "Unknown" },
+                { thai: "ไม่เป็นระเบียบ", english: "Untidy" },
+                { thai: "ไม่เป็นธรรม", english: "Unfair" },
+                { thai: "เปิด/ไข", english: "Unlock" },
+                { thai: "คลายปม", english: "Untie" },
+                { thai: "ไม่น่าเชื่อ", english: "Unbelievable" },
+                { thai: "ไม่คาดคิด", english: "Unexpected" },
+                { thai: "ไม่สมบูรณ์", english: "Unfinished" },
+                { thai: "ไม่โชคดี", english: "Unlucky" },
+                { thai: "ไม่มีเงื่อนไข", english: "Unconditional" },
+                { thai: "ไม่สำคัญ", english: "Unimportant" },
+                { thai: "ไม่สบาย", english: "Uneasy" },
+                { thai: "เปิดเผย", english: "Uncover" },
+                { thai: "ไม่สำเร็จ", english: "Unsuccessful" },
+                { thai: "ไม่สุภาพ", english: "Unkind" },
+                { thai: "ไม่มีวันสิ้นสุด", english: "Unending" },
+                { thai: "ไม่คุ้นเคย", english: "Unfamiliar" },
+                { thai: "ไม่สมควร", english: "Unfit" },
+                { thai: "หลีกเลี่ยงไม่ได้", english: "Unavoidable" }
             ],
-            "วันสงกรานต์ 💦": [
-                { thai: "ปีใหม่ไทย", english: "Thai New Year" }, 
-                { thai: "สรงน้ำพระ", english: "bathing rite (Buddha image)" }, 
-                { thai: "ก่อเจดีย์ทราย", english: "sand pagoda" }, 
-                { thai: "รดน้ำดำหัว", english: "pouring water ceremony" }, 
-                { thai: "ขันน้ำ", english: "water bowl" }, 
-                { thai: "ปืนฉีดน้ำ", english: "water gun" }, 
-                { thai: "แป้งหอม", english: "fragrant powder" }, 
-                { thai: "ครอบครัว", english: "family" }, 
-                { thai: "วัด", english: "temple" }, 
-                { thai: "เสื้อลายดอก", english: "floral shirt" },
-                { thai: "ทำบุญ", english: "merit making" }, 
-                { thai: "ผู้สูงอายุ", english: "elders" }, 
-                { thai: "ต่างจังหวัด", english: "province" }, 
-                { thai: "ประพรมน้ำ", english: "sprinkle water" }, 
-                { thai: "เสื้อผ้าใหม่", english: "new clothes" }, 
-                { thai: "พระพุทธรูป", english: "Buddha image" }, 
-                { thai: "ความเคารพ", english: "respect" }, 
-                { thai: "ประเพณี", english: "tradition" }, 
-                { thai: "การเล่นน้ำ", english: "water fight" }, 
-                { thai: "วันมหาสงกรานต์", english: "Maha Songkran" }
+            "6. RE- (อีกครั้ง/ย้อนกลับ) 20 คำ": [
+                { thai: "ทำซ้ำ/อีกครั้ง", english: "Repeat" },
+                { thai: "เขียนใหม่", english: "Rewrite" },
+                { thai: "สร้างใหม่", english: "Rebuild" },
+                { thai: "กลับมา", english: "Return" },
+                { thai: "ตอบกลับ", english: "Reply" },
+                { thai: "เรียกคืน", english: "Recall" },
+                { thai: "คิดใหม่", english: "Rethink" },
+                { thai: "เติมใหม่", english: "Refill" },
+                { thai: "ฟื้นตัว", english: "Recover" },
+                { thai: "ย้อนกลับ", english: "Reverse" },
+                { thai: "จำได้", english: "Remember" },
+                { thai: "ลาออก", english: "Resign" },
+                { thai: "ถอยกลับ", english: "Recede" },
+                { thai: "ต่ออายุ", english: "Renew" },
+                { thai: "ตรวจสอบ", english: "Review" },
+                { thai: "ซ่อมแซม", english: "Repair" },
+                { thai: "ทำซ้ำ", english: "Reproduce" },
+                { thai: "ปฏิวัติ", english: "Revolve" },
+                { thai: "พิจารณา", english: "Regard" },
+                { thai: "แก้ไข/เปลี่ยนแปลง", english: "Reform" }
             ],
-            "วันฮาโลวีน 🎃": [
-                { thai: "ฟักทอง", english: "Pumpkin" }, 
-                { thai: "แจ็คโอแลนเทิร์น", english: "Jack-o'-lantern" }, 
-                { thai: "ชุดแฟนซี", english: "Costume" }, 
-                { thai: "หลอกหรือเลี้ยง", english: "Trick-or-treat" }, 
-                { thai: "ผี", english: "Ghost" }, 
-                { thai: "แม่มด", english: "Witch" }, 
-                { thai: "แวมไพร์", english: "Vampire" }, 
-                { thai: "ค้างคาว", english: "Bat" }, 
-                { thai: "ใยแมงมุม", english: "Cobweb" }, 
-                { thai: "บ้านผีสิง", english: "Haunted house" },
-                { thai: "สุสาน", english: "cemetery" }, 
-                { thai: "หัวกะโหลก", english: "skull" }, 
-                { thai: "คาถา", english: "spell" }, 
-                { thai: "ปาร์ตี้ชุดแฟนซี", english: "costume party" }, 
-                { thai: "ความกลัว", english: "fear" }, 
-                { thai: "ลึกลับ/น่าขนลุก", english: "eerie" }, 
-                { thai: "หมอก", english: "fog" },
-                { thai: "โลงศพ", english: "coffin" },
-                { thai: "เครื่องราง", english: "amulet" },
-                { thai: "ดวงจันทร์", english: "moon" }
+            "7. CO-/COM-/CON- (ร่วม/ด้วยกัน) 20 คำ": [
+                { thai: "ร่วมมือ", english: "Cooperate" },
+                { thai: "ผู้เขียนร่วม", english: "Co-author" },
+                { thai: "เชื่อมต่อ", english: "Connect" },
+                { thai: "สรุป", english: "Conclude" },
+                { thai: "ประกอบด้วย", english: "Comprise" },
+                { thai: "ความเห็นอกเห็นใจ", english: "Compassion" },
+                { thai: "การสื่อสาร", english: "Communicate" },
+                { thai: "ร่วมงาน", english: "Colleague" },
+                { thai: "สมาคม/ชมรม", english: "Club" },
+                { thai: "ควบคุม", english: "Control" },
+                { thai: "ผสม", english: "Combine" },
+                { thai: "เปรียบเทียบ", english: "Compare" },
+                { thai: "ร่วมสมัย", english: "Contemporary" },
+                { thai: "พยาน", english: "Confide" },
+                { thai: "ปรึกษา", english: "Consult" },
+                { thai: "การรวมกัน", english: "Consolidation" },
+                { thai: "การต่อสู้", english: "Combat" },
+                { thai: "ร่วมมือ", english: "Collaborate" },
+                { thai: "สมบูรณ์", english: "Complete" },
+                { thai: "การมีส่วนร่วม", english: "Contribution" }
+            ],
+            "8. SUB- (ภายใต้/รอง) 20 คำ": [
+                { thai: "รถไฟใต้ดิน", english: "Subway" },
+                { thai: "เรือดำน้ำ", english: "Submarine" },
+                { thai: "ส่ง/ยื่น", english: "Submit" },
+                { thai: "หัวข้อรอง", english: "Subheading" },
+                { thai: "รองจาก", english: "Subordinate" },
+                { thai: "แทนที่", english: "Substitute" },
+                { thai: "ทวีปย่อย", english: "Subcontinent" },
+                { thai: "อยู่ภายใต้", english: "Subject" },
+                { thai: "ส่วนย่อย", english: "Subsection" },
+                { thai: "ที่สำคัญ", english: "Substantial" },
+                { thai: "เบาลง/บรรเทา", english: "Subdue" },
+                { thai: "สมัครสมาชิก", english: "Subscribe" },
+                { thai: "ความอ่อนน้อม", english: "Submission" },
+                { thai: "ยอดรวม", english: "Subtotal" },
+                { thai: "ตั้งอยู่", english: "Situated" },
+                { thai: "สงบ/เรียบง่าย", english: "Subtle" },
+                { thai: "ชั้นดินใต้ผิวดิน", english: "Subsoil" },
+                { thai: "ระดับรองลงมา", english: "Sublevel" },
+                { thai: "ขัดขวาง", english: "Subvert" },
+                { thai: "ส่วนประกอบ", english: "Substance" }
             ]
         };
-        // ----------------------------------------------------
-        // ส่วน JavaScript (Logics)
-        // ----------------------------------------------------
         
         // --- Theme Colors for each Category ---
         const themeColors = {
-            "เทศกาลลอยกระทง 🌕": { 
+            "1. IN- (In, Im, Il, Ir) 20 คำ": { 
                 btn_bg: "#3498DB", btn_shadow: "#2980B9", 
-                card_bg: "#2980B9", card_accent: "#F1C40F" // Blue/Yellow
-            },
-            "เทศกาลอีสเตอร์ 🥚": { 
-                btn_bg: "#A29BFE", btn_shadow: "#6C5CE7", 
-                card_bg: "#6C5CE7", card_accent: "#FF7675" // Purple/Light Red
-            },
-            "เทศกาลปีใหม่ 🎉": { 
-                btn_bg: "#2ECC71", btn_shadow: "#27AE60",
-                card_bg: "#27AE60", card_accent: "#FDCB6E" // Emerald/Orange-Yellow
-            },
-            "วันคริสต์มาส 🎄": { 
-                btn_bg: "#E74C3C", btn_shadow: "#C0392B", 
-                card_bg: "#C0392B", card_accent: "#1ABC9C" // Dark Red/Turquoise
-            },
-            "วันวาเลนไทน์ ❤️": { 
+                card_bg: "#2980B9", card_accent: "#F1C40F" 
+            }, // Blue/Yellow
+            "2. EX- (ออก/อดีต) 20 คำ": { 
+                btn_bg: "#2ECC71", btn_shadow: "#27AE60", 
+                card_bg: "#27AE60", card_accent: "#E74C3C" 
+            }, // Green/Red
+            "3. PRE- (ก่อน/ล่วงหน้า) 20 คำ": { 
+                btn_bg: "#9B59B6", btn_shadow: "#8E44AD", 
+                card_bg: "#8E44AD", card_accent: "#F39C12" 
+            }, // Purple/Orange
+            "4. DIS- (ไม่/ตรงกันข้าม) 20 คำ": { 
                 btn_bg: "#FF6B6B", btn_shadow: "#D63031", 
-                card_bg: "#D63031", card_accent: "#FFE66D" // Red/Yellow
-            },
-            "วันสงกรานต์ 💦": { 
-                btn_bg: "#4ECDC4", btn_shadow: "#16A085", 
-                card_bg: "#1ABC9C", card_accent: "#3498DB" // Turquoise/Blue
-            },
-            "วันฮาโลวีน 🎃": { 
+                card_bg: "#D63031", card_accent: "#4ECDC4" 
+            }, // Red/Teal
+            "5. UN- (ไม่/ตรงกันข้าม) 20 คำ": { 
                 btn_bg: "#FDCB6E", btn_shadow: "#F39C12", 
-                card_bg: "#F39C12", card_accent: "#34495E" // Orange/Dark Blue
-            }
+                card_bg: "#F39C12", card_accent: "#3498DB" 
+            }, // Orange/Blue
+            "6. RE- (อีกครั้ง/ย้อนกลับ) 20 คำ": { 
+                btn_bg: "#A29BFE", btn_shadow: "#6C5CE7", 
+                card_bg: "#6C5CE7", card_accent: "#2ECC71" 
+            }, // Violet/Emerald
+            "7. CO-/COM-/CON- (ร่วม/ด้วยกัน) 20 คำ": { 
+                btn_bg: "#1ABC9C", btn_shadow: "#16A085", 
+                card_bg: "#16A085", card_accent: "#FFD700" 
+            }, // Turquoise/Gold
+            "8. SUB- (ภายใต้/รอง) 20 คำ": { 
+                btn_bg: "#34495E", btn_shadow: "#2C3E50", 
+                card_bg: "#2C3E50", card_accent: "#FF6B6B" 
+            } // Dark Slate/Coral Red
         };
 
+        // ----------------------------------------------------
+        // ส่วน JavaScript (Logics) - (คงเดิม)
+        // ----------------------------------------------------
         const categoryPage = document.getElementById('category-page');
         const lessonPage = document.getElementById('lesson-page');
         const categoryGrid = document.getElementById('category-grid');
@@ -447,7 +487,7 @@
             for (const category in vocabularyData) {
                 const button = document.createElement('button');
                 button.className = 'category-button';
-                button.innerHTML = category;
+                button.innerHTML = category.replace(/\s(\d+)\sคำ/g, '<br>($1 คำ)'); 
                 
                 const colors = themeColors[category] || { btn_bg: "#9B59B6", btn_shadow: "#8E44AD" };
                 
@@ -473,8 +513,9 @@
             document.querySelector('.container').style.borderColor = colors.card_bg;
 
 
-            const titleWithoutEmoji = category.replace(/\s*[\uD800-\uDBFF\uDC00-\uDFFF\u2700-\u27BF\u2300-\u23FF\u2B00-\u2BFF\u2E80-\u33FF]\s*/g, '').trim();
-            lessonTitle.textContent = titleWithoutEmoji; 
+            const titleWithoutNum = category.replace(/^\d+\.\s*([A-Z\/-]+)\s*\((.*?)\)\s*.*$/, '$1 ($2)').trim();
+
+            lessonTitle.textContent = titleWithoutNum; 
             currentIndex = 0;
             displayVocab();
             categoryPage.style.display = 'none';
@@ -574,9 +615,9 @@
             categoryPage.style.display = 'block';
             
             // รีเซ็ตสีการ์ดกลับไปเป็น Default เมื่อกลับหน้าหลัก
-            document.documentElement.style.setProperty('--dynamic-card-bg', '#FF6B6B'); 
-            document.documentElement.style.setProperty('--dynamic-card-accent', '#FFE66D');
-            document.querySelector('.container').style.borderColor = '#FF6B6B';
+            document.documentElement.style.setProperty('--dynamic-card-bg', '#3498DB'); 
+            document.documentElement.style.setProperty('--dynamic-card-accent', '#F1C40F');
+            document.querySelector('.container').style.borderColor = '#3498DB';
         }
 
         // Event Listeners
