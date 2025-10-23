@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Word Journey: Mobile Prefix Focus - Multi-Theme</title>
+    <title>Word Journey: Mobile Aesthetic Focus</title>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Mali:wght@600&display=swap');
 
-        /* สีสันหลักของ App (ใช้สำหรับปุ่มควบคุมและพื้นหลังรวม) */
+        /* --- ธีมสีเดียวที่เรียบง่ายและดูดี (Classic Theme) --- */
         :root {
-            --color-primary-app: #8A2BE2; /* Blue Violet - ม่วง */
-            --color-secondary-app: #FFD700; /* Gold - เหลืองทอง */
-            --color-accent-app: #3CB371; /* Medium Sea Green - เขียว */
+            --color-primary: #8A2BE2; /* Blue Violet - ม่วงหลัก */
+            --color-secondary: #FFD700; /* Gold - เหลืองทองไฮไลต์ */
+            --color-accent: #3CB371; /* Medium Sea Green */
             --color-background-start: #483D8B; /* Dark Slate Blue */
             --color-background-end: #6A5ACD; /* Slate Blue */
-            --text-color: #f0f0f0; 
-            --card-color: #FFFFFF;
-
-            /* สี Dynamic สำหรับ Card (จะถูกเปลี่ยนด้วย JS) */
-            --card-bg: var(--color-primary-app);
-            --card-highlight: var(--color-secondary-app);
+            --text-color: #f0f0f0; /* สีขาวสำหรับข้อความบนการ์ด */
+            --card-color: #FFFFFF; /* สีพื้นหลังของ Container */
         }
 
-        /* --- MOBILE FIRST STYLES (Default) --- */
+        /* --- MOBILE PORTRAIT FOCUS (Default Styles) --- */
         body {
             font-family: 'Mali', cursive, 'Sarabun', sans-serif;
             background: linear-gradient(135deg, var(--color-background-start), var(--color-background-end));
@@ -32,9 +28,10 @@
             padding: 10px; 
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: flex-start; /* เน้นให้อยู่ด้านบนสำหรับมือถือแนวตั้ง */
             min-height: 100vh;
             text-align: center;
+            box-sizing: border-box;
         }
 
         .container {
@@ -42,68 +39,73 @@
             padding: 1.5rem; 
             border-radius: 20px; 
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); 
-            width: 100%;
+            width: 100%; 
             max-width: 600px; 
             box-sizing: border-box;
-            border: 4px solid var(--color-primary-app); 
+            border: 4px solid var(--color-primary); /* ใช้สีหลักเป็นขอบ Container */
             margin-top: 10px;
         }
 
         h1 {
-            color: var(--color-primary-app); 
+            color: var(--color-primary); 
             font-size: 2em; 
             margin-bottom: 1.5rem;
         }
 
-        /* Category Page */
+        /* Category Page - Mobile Optimized */
         #category-page { display: block; }
         .category-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr; /* 1 คอลัมน์สำหรับมือถือแนวตั้ง */
             gap: 1rem;
             margin-top: 1rem;
         }
         .category-button {
             width: 100%; 
-            color: white; /* Default text color for buttons */
+            color: white;
             border: none;
-            padding: 1.2rem 0.5rem;
+            padding: 1.2rem 0.5rem; 
             border-radius: 15px;
-            font-size: 1.1em;
+            font-size: 1.1em; 
             line-height: 1.3;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease-in-out;
-            text-transform: uppercase;
             font-family: 'Mali', cursive;
+            
+            /* ใช้สีเฉพาะสำหรับปุ่มหมวดหมู่ (สีเข้มกว่า) */
+            background-color: #4682B4; /* Steel Blue */
         }
-        .category-button:active { transform: translateY(1px); box-shadow: 0 1px 0 rgba(0, 0, 0, 0.3); }
+        /* Hover/Active effects */
+        .category-button:hover { background-color: #386794; }
+        .category-button:active { transform: translateY(1px); box-shadow: 0 1px 0 #191970; }
+        .category-button { box-shadow: 0 4px 0 #191970; } /* ตั้งเงาให้ชัดเจน */
 
-        /* Lesson Page */
+
+        /* Lesson Page - Vocab Card (ใช้ธีมสีเดียว) */
         #lesson-page { display: none; }
         #vocab-card {
-            /* ใช้ตัวแปร Dynamic */
-            background-color: var(--card-bg); 
+            background-color: var(--color-primary); /* พื้นหลังม่วง */
             border-radius: 20px;
             padding: 2rem 1rem;
             min-height: 200px; 
             margin-bottom: 1rem;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            border: 4px solid var(--card-highlight); /* ใช้ Highlight เป็นขอบ */
+            border: 4px solid var(--color-secondary); /* ขอบเหลืองทอง */
         }
         #english-word {
             font-size: 3em; 
-            /* ใช้ตัวแปร Dynamic */
-            color: var(--card-highlight); 
+            color: var(--color-secondary); /* ตัวอักษรเหลืองทอง */
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
             margin-bottom: 0.5rem;
             font-weight: 700;
         }
         #thai-word {
             font-size: 1.8em; 
-            color: var(--card-color); /* สีขาว (คงเดิม) */
+            color: var(--text-color); /* ตัวอักษรขาว */
         }
+        
+        /* Control Buttons - Mobile Optimized */
         .control-group {
             display: flex;
             flex-wrap: wrap; 
@@ -112,12 +114,18 @@
             margin-top: 0.8rem;
         }
         .control-group button {
-            width: calc(50% - 0.8rem); 
+            width: calc(50% - 0.4rem); /* ใช้ความกว้างเกือบครึ่งจอ */
             padding: 10px 15px;
             border-radius: 30px;
-            font-size: 1em;
+            font-size: 0.95em;
             box-shadow: 0 3px 0 rgba(0, 0, 0, 0.2);
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
         }
+        /* ปุ่ม Back To Category ให้เต็มความกว้าง */
         #back-to-cat-btn {
             width: 100%;
         }
@@ -364,7 +372,8 @@
                 { thai: "ส่วนประกอบ", english: "Substance" }
             ]
         };
-
+        
+        // --- JAVASCRIPT LOGIC ---
         const categoryPage = document.getElementById('category-page');
         const lessonPage = document.getElementById('lesson-page');
         const categoryGrid = document.getElementById('category-grid');
@@ -382,7 +391,7 @@
         let isPlaying = false;
         let voices = [];
         let currentVocab = {};
-        
+
         // --- Web Speech API (คงเดิม) ---
         if ('speechSynthesis' in window) {
             window.speechSynthesis.onvoiceschanged = () => {
@@ -428,57 +437,32 @@
             }
         }
 
-        // --- เพิ่มฟังก์ชันสำหรับอัพเดตสีการ์ด ---
-        function updateCardColors(colors) {
-            // ใช้ setProperty เพื่อเปลี่ยนค่า CSS Variable ที่กำหนดไว้ใน :root
-            document.documentElement.style.setProperty('--card-bg', colors.bg);
-            document.documentElement.style.setProperty('--card-highlight', colors.highlight);
-            // เพื่อให้ขอบ container เปลี่ยนสีตามด้วย (ความสวยงาม)
-            document.querySelector('.container').style.borderColor = colors.bg;
-        }
-
         // --- Game Logic ---
-        const themeColors = {
-            "1. IN- (In, Im, Il, Ir) 20 คำ": { bg: "#FF6B6B", shadow: "#FF3838", highlight: "#FFE66D" }, // Red/Coral -> Yellow Highlight
-            "2. EX- (ออก/อดีต) 20 คำ": { bg: "#1ABC9C", shadow: "#16A085", highlight: "#ECF0F1" }, // Green/Turquoise -> Light Gray Highlight
-            "3. PRE- (ก่อน/ล่วงหน้า) 20 คำ": { bg: "#9B59B6", shadow: "#8E44AD", highlight: "#F39C12" }, // Purple/Wisteria -> Orange Highlight
-            "4. DIS- (ไม่/ตรงกันข้าม) 20 คำ": { bg: "#3498DB", shadow: "#2980B9", highlight: "#F1C40F" }, // Blue/Peter River -> Yellow Highlight
-            "5. UN- (ไม่/ตรงกันข้าม) 20 คำ": { bg: "#E67E22", shadow: "#D35400", highlight: "#A29BFE" }, // Orange/Carrot -> Light Violet Highlight
-            "6. RE- (อีกครั้ง/ย้อนกลับ) 20 คำ": { bg: "#2ECC71", shadow: "#27AE60", highlight: "#E74C3C" }, // Emerald/Green -> Red Highlight
-            "7. CO-/COM-/CON- (ร่วม/ด้วยกัน) 20 คำ": { bg: "#34495E", shadow: "#2C3E50", highlight: "#4ECDC4", text: "white" }, // Dark Blue/Wet Asphalt -> Teal Highlight
-            "8. SUB- (ภายใต้/รอง) 20 คำ": { bg: "#F1C40F", shadow: "#F39C12", highlight: "#3498DB", text: "#333" } // Yellow/Sun Flower -> Blue Highlight
-        };
-
-
         function createCategoryButtons() {
+            // ใช้สีเดียวสำหรับทุกปุ่มหมวดหมู่
+            const buttonColor = { bg: "#4682B4", shadow: "#191970" };
+
             for (const category in vocabularyData) {
                 const button = document.createElement('button');
                 button.className = 'category-button';
                 button.innerHTML = category.replace(/\s(\d+)\sคำ/g, '<br>($1 คำ)'); 
                 
-                const colors = themeColors[category];
+                // ใช้การกำหนดสีจาก CSS โดยตรง หรือจากตัวแปรเดียว
                 
-                button.style.backgroundColor = colors.bg;
-                button.style.boxShadow = `0 4px 0 ${colors.shadow}`;
-                if (colors.text) { button.style.color = colors.text; } 
-
-                
-                button.onmouseover = () => { button.style.backgroundColor = colors.shadow; button.style.transform = 'translateY(-1px)'; };
-                button.onmouseleave = () => { button.style.backgroundColor = colors.bg; button.style.transform = 'translateY(0)'; };
-                button.onmousedown = () => { button.style.transform = 'translateY(1px)'; button.style.boxShadow = `0 1px 0 ${colors.shadow}`; };
+                button.onmouseover = () => { button.style.backgroundColor = buttonColor.shadow; button.style.transform = 'translateY(-1px)'; };
+                button.onmouseleave = () => { button.style.backgroundColor = buttonColor.bg; button.style.transform = 'translateY(0)'; };
+                button.onmousedown = () => { button.style.transform = 'translateY(1px)'; button.style.boxShadow = `0 1px 0 ${buttonColor.shadow}`; };
 
 
-                button.addEventListener('click', () => startLesson(category, colors));
+                button.addEventListener('click', () => startLesson(category));
                 categoryGrid.appendChild(button);
             }
         }
 
-        function startLesson(category, colors) {
+        function startLesson(category) {
             currentCategoryVocabs = vocabularyData[category];
+            // ไม่มีการเปลี่ยนสีการ์ด เพราะใช้ธีมเดียว
             
-            // 1. อัพเดตสีการ์ดตามกลุ่มที่เลือก
-            updateCardColors(colors); 
-
             const title = category.replace(/^\d+\.\s*([A-Z\/-]+)\s*\((.*?)\)\s*.*$/, '$1 ($2)').trim();
             lessonTitle.textContent = title; 
             
@@ -579,10 +563,6 @@
             stopAutoPlay();
             lessonPage.style.display = 'none';
             categoryPage.style.display = 'block';
-            // รีเซ็ตสีการ์ดกลับไปเป็นสีเริ่มต้นของ App
-            updateCardColors({ bg: document.documentElement.style.getPropertyValue('--color-primary-app'), highlight: document.documentElement.style.getPropertyValue('--color-secondary-app') });
-            document.querySelector('.container').style.borderColor = document.documentElement.style.getPropertyValue('--color-primary-app');
-
         }
 
         // Event Listeners
